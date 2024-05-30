@@ -1,0 +1,588 @@
+{
+  "workflow": {
+    "unique_name": "definition_workflow_02EQ1OL8S4P5J0a073yXQ2yWrVcVJhCrfxi",
+    "name": "Pod-cdbf05-Parent",
+    "title": "Pod-cdbf05-Parent",
+    "type": "generic.workflow",
+    "base_type": "workflow",
+    "variables": [
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "",
+          "scope": "local",
+          "name": "results",
+          "type": "datatype.string",
+          "is_required": false,
+          "display_on_wizard": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_02EQ21UB79WF51yGgZ6KVFpVYG7iUkbU10r",
+        "object_type": "variable_workflow"
+      },
+      {
+        "schema_id": "datatype.string",
+        "properties": {
+          "value": "Bret",
+          "scope": "input",
+          "name": "username",
+          "type": "datatype.string",
+          "is_required": true,
+          "display_on_wizard": false,
+          "is_invisible": false
+        },
+        "unique_name": "variable_workflow_02EQ1R1BDX8TA3l6i0gqNIAx6tkUQNZrspF",
+        "object_type": "variable_workflow"
+      }
+    ],
+    "properties": {
+      "atomic": {
+        "is_atomic": false
+      },
+      "automation_rules": {
+        "type": [
+          "schedule.rule_schedule"
+        ]
+      },
+      "delete_workflow_instance": false,
+      "display_name": "Pod-cdbf05-Parent",
+      "runtime_user": {
+        "target_default": true
+      },
+      "target": {
+        "target_type": "web-service.endpoint",
+        "target_id": "definition_target_02EQ0XDICELOW5QiOv86ReSG3B3nc9ndwLu",
+        "execute_on_workflow_target": true
+      }
+    },
+    "object_type": "definition_workflow",
+    "actions": [
+      {
+        "unique_name": "definition_activity_02EQ1PH0GXDR77gd2e1EFVOSx52iCL2xEes",
+        "name": "Pod-cdbf05-HTTP Atomic",
+        "title": "Pod-cdbf05-HTTP Atomic",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "display_name": "Pod-cdbf05-HTTP Atomic",
+          "input": {
+            "variable_workflow_02EQ14XSXYDV82ShLFdQSuVwqZnsTM5EMJn": "users"
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "target": {
+            "execute_on_this_target": true,
+            "target_id": "definition_target_02EQ0XDICELOW5QiOv86ReSG3B3nc9ndwLu",
+            "target_type": "web-service.endpoint"
+          },
+          "workflow_id": "definition_workflow_02EQ14DKSI1WT0eHsxwxJo8av5gmfgzEquL",
+          "workflow_name": "Pod-cdbf05-HTTP Atomic"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_02EQ1R4VP7N880kYG73ou0ykqKNlkW9bsm3",
+        "name": "JSONPath Query",
+        "title": "JSONPath Query",
+        "type": "corejava.jsonpathquery",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": true,
+          "display_name": "JSONPath Query",
+          "input_json": "$activity.definition_activity_02EQ1PH0GXDR77gd2e1EFVOSx52iCL2xEes.output.variable_workflow_02EQ154NOK1745jv73dCiKnPC1Kg1vLDLhQ$",
+          "jsonpath_queries": [
+            {
+              "jsonpath_query": "$.[?(@.username==\"$workflow.definition_workflow_02EQ1OL8S4P5J0a073yXQ2yWrVcVJhCrfxi.input.variable_workflow_02EQ1R1BDX8TA3l6i0gqNIAx6tkUQNZrspF$\")]",
+              "jsonpath_query_name": "username",
+              "jsonpath_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_02EQ1SXFSE74U6AR15InT3G763ZyHQNevkX",
+        "name": "Write Data to DB",
+        "title": "Write Data to DB",
+        "type": "workflow.atomic_workflow",
+        "base_type": "subworkflow",
+        "properties": {
+          "continue_on_failure": true,
+          "display_name": "Write Data to DB",
+          "input": {
+            "variable_workflow_01P0GS2SYRNAD5djU4I0EmDyh4Y5moK99Mr": "CiscoLive2024",
+            "variable_workflow_01P0GS9ADS0FB2p5ZH16T37LUc5yub2YWhi": "LTRATO1000",
+            "variable_workflow_01P0GSK7IBUCF1egLmUv3sAxTwOtmvwiqus": "{\n   \"workflowId\": \"$workflow.definition_workflow_02EQ1OL8S4P5J0a073yXQ2yWrVcVJhCrfxi.output.instance_id$\",\n   \"output\": \"none\",\n   \"$currentDate\": { \"lastModified\": true}\n  }",
+            "variable_workflow_01Q8N6BMRXR1F4IwAmNFn19l4XpB4LuqUWg": false
+          },
+          "runtime_user": {
+            "target_default": true
+          },
+          "skip_execution": false,
+          "target": {
+            "override_workflow_target": true,
+            "target_id": "definition_target_02EPG7GAZFXRP4pI7hf1viYPQEArv4JGAqm",
+            "target_type": "web-service.endpoint"
+          },
+          "workflow_id": "definition_workflow_01P0GR3W6BLFK0lH4HekJSKaPcftY2an66W",
+          "workflow_name": "Create_Document_In_Mongo-RestHeart"
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_02EQ1WLP4NXBL3m3b9xqM7ZjjNsxx7tqiOt",
+        "name": "Execute Python Script",
+        "title": "Execute Python Script",
+        "type": "python3.script",
+        "base_type": "activity",
+        "properties": {
+          "action_timeout": 180,
+          "continue_on_failure": true,
+          "display_name": "Execute Python Script",
+          "script": "import json\nimport sys\n\ntry:\n    block = json.loads(sys.argv[1])\n    if block['name']:\n      output = block['name']\n    else:\n      output = \"No Name Found.\"\nexcept:\n    output = \"No Name Found\"",
+          "script_arguments": [
+            "$activity.definition_activity_02EQ1R4VP7N880kYG73ou0ykqKNlkW9bsm3.output.jsonpath_queries.username$"
+          ],
+          "script_queries": [
+            {
+              "script_query": "output",
+              "script_query_name": "name_of_person",
+              "script_query_type": "string"
+            }
+          ],
+          "skip_execution": false
+        },
+        "object_type": "definition_activity"
+      },
+      {
+        "unique_name": "definition_activity_02EQ1ZL2GTIDP2NzFvgnp02TIdLiYShqRzL",
+        "name": "Condition Block",
+        "title": "if found name",
+        "type": "logic.if_else",
+        "base_type": "activity",
+        "properties": {
+          "continue_on_failure": false,
+          "display_name": "if found name",
+          "skip_execution": false
+        },
+        "object_type": "definition_activity",
+        "blocks": [
+          {
+            "unique_name": "definition_activity_02EQ1ZL2T94P65RAKCDxpdD88wHh3wLuaMg",
+            "name": "Condition Branch",
+            "title": "THEN",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_02EQ1WLP4NXBL3m3b9xqM7ZjjNsxx7tqiOt.output.succeeded$",
+                "operator": "eq",
+                "right_operand": true
+              },
+              "continue_on_failure": false,
+              "display_name": "THEN",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_02EQ26DZ6R7X500UDDw2YddmrsrKoHEWO8W",
+                "name": "Group",
+                "title": "Group",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Group",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_02EQ21Z27JWLH2GTG829MJFo7uwALjceWV6",
+                    "name": "Set Variables",
+                    "title": "Set Variables",
+                    "type": "core.set_multiple_variables",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Set Variables",
+                      "skip_execution": false,
+                      "variables_to_update": [
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_02EQ1OL8S4P5J0a073yXQ2yWrVcVJhCrfxi.local.variable_workflow_02EQ21UB79WF51yGgZ6KVFpVYG7iUkbU10r$",
+                          "variable_value_new": "We found $activity.definition_activity_02EQ1WLP4NXBL3m3b9xqM7ZjjNsxx7tqiOt.output.script_queries.name_of_person$ by their username $workflow.definition_workflow_02EQ1OL8S4P5J0a073yXQ2yWrVcVJhCrfxi.input.variable_workflow_02EQ1R1BDX8TA3l6i0gqNIAx6tkUQNZrspF$"
+                        }
+                      ]
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_02EQ243HD1A8B5U8EoJ13rCeGbJ0PMt20Mh",
+                    "name": "Send Email",
+                    "title": "Send Email",
+                    "type": "email.smtp_send_email",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "body": "$workflow.definition_workflow_02EQ1OL8S4P5J0a073yXQ2yWrVcVJhCrfxi.local.variable_workflow_02EQ21UB79WF51yGgZ6KVFpVYG7iUkbU10r$",
+                      "continue_if_one_address_valid": false,
+                      "continue_on_failure": false,
+                      "display_name": "Send Email",
+                      "from": "no-reply@cisco.com",
+                      "runtime_user": {
+                        "target_default": true
+                      },
+                      "skip_execution": false,
+                      "subject": "We found a person!!!",
+                      "target": {
+                        "override_workflow_target": true,
+                        "target_id": "definition_target_02EQ0Z60TOJ012pAJl9ORI8RZpS1jl9xB9K"
+                      },
+                      "to": "shaurobe@cisco.com"
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_02EQ24XEB8TWH4leDlApQe8easY1OLG9bQr",
+                    "name": "Modify_Document_In_Mongo-RestHeart",
+                    "title": "Modify_Document_In_Mongo-RestHeart",
+                    "type": "workflow.atomic_workflow",
+                    "base_type": "subworkflow",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Modify_Document_In_Mongo-RestHeart",
+                      "input": {
+                        "variable_workflow_01P0K38MFMKLC15BaJ8V84fIITsTe7S3bsQ": "{\n \"output\": \"$workflow.definition_workflow_02EQ1OL8S4P5J0a073yXQ2yWrVcVJhCrfxi.local.variable_workflow_02EQ21UB79WF51yGgZ6KVFpVYG7iUkbU10r$\"\n}",
+                        "variable_workflow_01P0K38MFMU176V1psk22FCiAVcMmKDUzQf": "LTRATO1000",
+                        "variable_workflow_01P0K38MFMX381olgktMHgNk4SZADqvVAED": "CiscoLive2024",
+                        "variable_workflow_01P0K38MFMZRB5kmabduFKxAOG8gCYEpzDD": "",
+                        "variable_workflow_01P0K6BFDR85M2evKKFVQlzMwKLYm7lJ5KB": "{\"workflowId\": \"$workflow.definition_workflow_02EQ1OL8S4P5J0a073yXQ2yWrVcVJhCrfxi.output.instance_id$\"}",
+                        "variable_workflow_01Q8NDJVZ30DI31gRnRcGnzTdfe3yB587hM": false
+                      },
+                      "runtime_user": {
+                        "target_default": true
+                      },
+                      "skip_execution": false,
+                      "target": {
+                        "override_workflow_target": true,
+                        "target_id": "definition_target_02EPG7GAZFXRP4pI7hf1viYPQEArv4JGAqm",
+                        "target_type": "web-service.endpoint"
+                      },
+                      "workflow_id": "definition_workflow_01P0K38QGGYDQ29vzDMyXrkbrrwsSBBCAsL",
+                      "workflow_name": "Modify_Document_In_Mongo-RestHeart"
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "unique_name": "definition_activity_02EQ1ZL33UTWP5lzVHf9y6tsmJcu77wUrlY",
+            "name": "Condition Branch",
+            "title": "Else",
+            "type": "logic.condition_block",
+            "base_type": "activity",
+            "properties": {
+              "condition": {
+                "left_operand": "$activity.definition_activity_02EQ1WLP4NXBL3m3b9xqM7ZjjNsxx7tqiOt.output.succeeded$",
+                "operator": "eq",
+                "right_operand": false
+              },
+              "continue_on_failure": false,
+              "display_name": "Else",
+              "skip_execution": false
+            },
+            "object_type": "definition_activity",
+            "actions": [
+              {
+                "unique_name": "definition_activity_02EQ277HZ72CA7UQ55FpxZFm3dDiTuHb0cA",
+                "name": "Group",
+                "title": "Group",
+                "type": "logic.group",
+                "base_type": "activity",
+                "properties": {
+                  "continue_on_failure": false,
+                  "display_name": "Group",
+                  "skip_execution": false
+                },
+                "object_type": "definition_activity",
+                "actions": [
+                  {
+                    "unique_name": "definition_activity_02EQ277HZAVPA6Gqz2wtjj7ISahEKtWL1r3",
+                    "name": "Set Variables",
+                    "title": "Set Variables",
+                    "type": "core.set_multiple_variables",
+                    "base_type": "activity",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Set Variables",
+                      "skip_execution": false,
+                      "variables_to_update": [
+                        {
+                          "variable_to_update": "$workflow.definition_workflow_02EQ1OL8S4P5J0a073yXQ2yWrVcVJhCrfxi.local.variable_workflow_02EQ21UB79WF51yGgZ6KVFpVYG7iUkbU10r$",
+                          "variable_value_new": "We did not find username $workflow.definition_workflow_02EQ1OL8S4P5J0a073yXQ2yWrVcVJhCrfxi.input.variable_workflow_02EQ1R1BDX8TA3l6i0gqNIAx6tkUQNZrspF$"
+                        }
+                      ]
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_02EQ277HZBK3P2YYuZSvT58DmhQsB8T6dKj",
+                    "name": "Send Email",
+                    "title": "Send Email",
+                    "type": "email.smtp_send_email",
+                    "base_type": "activity",
+                    "properties": {
+                      "action_timeout": 180,
+                      "body": "$workflow.definition_workflow_02EQ1OL8S4P5J0a073yXQ2yWrVcVJhCrfxi.local.variable_workflow_02EQ21UB79WF51yGgZ6KVFpVYG7iUkbU10r$",
+                      "continue_if_one_address_valid": false,
+                      "continue_on_failure": false,
+                      "display_name": "Send Email",
+                      "from": "no-reply@cisco.com",
+                      "runtime_user": {
+                        "target_default": true
+                      },
+                      "skip_execution": false,
+                      "subject": "We did not find the person!",
+                      "target": {
+                        "override_workflow_target": true,
+                        "target_id": "definition_target_02EQ0Z60TOJ012pAJl9ORI8RZpS1jl9xB9K"
+                      },
+                      "to": "shaurobe@cisco.com"
+                    },
+                    "object_type": "definition_activity"
+                  },
+                  {
+                    "unique_name": "definition_activity_02EQ277HZD3O67l4hz8I8DUpgEXxiM76hEe",
+                    "name": "Modify_Document_In_Mongo-RestHeart",
+                    "title": "Modify_Document_In_Mongo-RestHeart",
+                    "type": "workflow.atomic_workflow",
+                    "base_type": "subworkflow",
+                    "properties": {
+                      "continue_on_failure": false,
+                      "display_name": "Modify_Document_In_Mongo-RestHeart",
+                      "input": {
+                        "variable_workflow_01P0K38MFMKLC15BaJ8V84fIITsTe7S3bsQ": "{\n \"output\": \"$workflow.definition_workflow_02EQ1OL8S4P5J0a073yXQ2yWrVcVJhCrfxi.local.variable_workflow_02EQ21UB79WF51yGgZ6KVFpVYG7iUkbU10r$\"\n}",
+                        "variable_workflow_01P0K38MFMU176V1psk22FCiAVcMmKDUzQf": "LTRATO1000",
+                        "variable_workflow_01P0K38MFMX381olgktMHgNk4SZADqvVAED": "CiscoLive2024",
+                        "variable_workflow_01P0K38MFMZRB5kmabduFKxAOG8gCYEpzDD": "",
+                        "variable_workflow_01P0K6BFDR85M2evKKFVQlzMwKLYm7lJ5KB": "{\"workflowId\": \"$workflow.definition_workflow_02EQ1OL8S4P5J0a073yXQ2yWrVcVJhCrfxi.output.instance_id$\"}",
+                        "variable_workflow_01Q8NDJVZ30DI31gRnRcGnzTdfe3yB587hM": false
+                      },
+                      "runtime_user": {
+                        "target_default": true
+                      },
+                      "skip_execution": false,
+                      "target": {
+                        "override_workflow_target": true,
+                        "target_id": "definition_target_02EPG7GAZFXRP4pI7hf1viYPQEArv4JGAqm",
+                        "target_type": "web-service.endpoint"
+                      },
+                      "workflow_id": "definition_workflow_01P0K38QGGYDQ29vzDMyXrkbrrwsSBBCAsL",
+                      "workflow_name": "Modify_Document_In_Mongo-RestHeart"
+                    },
+                    "object_type": "definition_activity"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "categories": [
+      "category_02EQ0UI88S17C5NYEXeiRXxIkGyqU4UO69o"
+    ]
+  },
+  "categories": {
+    "category_02EQ0UI88S17C5NYEXeiRXxIkGyqU4UO69o": {
+      "unique_name": "category_02EQ0UI88S17C5NYEXeiRXxIkGyqU4UO69o",
+      "name": "cdbf05",
+      "title": "cdbf05",
+      "type": "basic.category",
+      "base_type": "category",
+      "category_type": "custom",
+      "object_type": "category"
+    }
+  },
+  "rules": {
+    "ruleschedule_02EQ2FDAG4HES4XMBziEsIwbdQPo6LVzQzG": {
+      "name": "Pod-cdbf05-Schedule",
+      "title": "Pod-cdbf05-Schedule",
+      "type": "schedule.rule_schedule",
+      "rule_type": "rule_schedule",
+      "base_type": "rule",
+      "object_type": "ruleschedule",
+      "version": "1.0.0",
+      "properties": {
+        "calendar": "calendar_recurring_1BMfMWvgiDhSjBQ7hTSyvz3NyVZ",
+        "description": "",
+        "display_name": "Pod-cdbf05-Schedule",
+        "interval_hours": 1,
+        "interval_minutes": 0,
+        "number_of_times": 23,
+        "rule_type": "rule_schedule",
+        "starttime": "00:00",
+        "timezone": "Etc/GMT+0",
+        "title": "Pod-cdbf05-Schedule",
+        "workflows_config": [
+          {
+            "disabled": true,
+            "ref_id": "definition_workflow_02EQ1OL8S4P5J0a073yXQ2yWrVcVJhCrfxi",
+            "wf_input_variables": {
+              "variable_workflow_02EQ1R1BDX8TA3l6i0gqNIAx6tkUQNZrspF": "Bret"
+            },
+            "status": {
+              "state": "stopped-polling",
+              "prev_state": "started-polling",
+              "error_msg": ""
+            }
+          }
+        ]
+      },
+      "disabled": false,
+      "unique_name": "ruleschedule_02EQ2FDAG4HES4XMBziEsIwbdQPo6LVzQzG"
+    }
+  },
+  "targets": {
+    "definition_target_02EPG7GAZFXRP4pI7hf1viYPQEArv4JGAqm": {
+      "unique_name": "definition_target_02EPG7GAZFXRP4pI7hf1viYPQEArv4JGAqm",
+      "name": "Mongo-Restheart-For-LABATO1000",
+      "title": "Mongo-Restheart-For-LABATO1000",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "ao_remote_id": "02EPAQZQPW6M125Yqxgx0tnQQhTDW0y468k",
+        "default_runtime_user_id": "definition_runtime_user_02EPG6RGU79J67ZMkRM6Rik4FGECyEy5nG6",
+        "description": "Mongo over Remote",
+        "disable_certificate_validation": false,
+        "display_name": "Mongo-Restheart-For-LABATO1000",
+        "host": "173.37.29.47",
+        "ignore_proxy": false,
+        "no_runtime_user": false,
+        "port": 8080,
+        "protocol": "http"
+      }
+    },
+    "definition_target_02EQ0XDICELOW5QiOv86ReSG3B3nc9ndwLu": {
+      "unique_name": "definition_target_02EQ0XDICELOW5QiOv86ReSG3B3nc9ndwLu",
+      "name": "Pod-cdbf05-HTTP Target",
+      "title": "Pod-cdbf05-HTTP Target",
+      "type": "web-service.endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "default_runtime_user_id": "definition_runtime_user_02EQ0W8F3FVEG0DfnogxuuBxHvcsCEIfWfa",
+        "disable_certificate_validation": true,
+        "display_name": "Pod-cdbf05-HTTP Target",
+        "host": "jsonplaceholder.typicode.com",
+        "ignore_proxy": false,
+        "no_runtime_user": false,
+        "port": 443,
+        "protocol": "https"
+      }
+    },
+    "definition_target_02EQ0Z60TOJ012pAJl9ORI8RZpS1jl9xB9K": {
+      "unique_name": "definition_target_02EQ0Z60TOJ012pAJl9ORI8RZpS1jl9xB9K",
+      "name": "Pod-cdbf05-SMTP Target",
+      "title": "Pod-cdbf05-SMTP Target",
+      "type": "email.smtp_endpoint",
+      "base_type": "target",
+      "object_type": "definition_target",
+      "properties": {
+        "default_runtime_user_id": "definition_runtime_user_02EQ0YTAYG55X3WLmL1aDpztPmyShznH6f0",
+        "display_name": "Pod-cdbf05-SMTP Target",
+        "no_runtime_user": false,
+        "port": 587,
+        "protocol": "SMTP",
+        "server": "smtp.gmail.com"
+      }
+    }
+  },
+  "runtime_users": {
+    "definition_runtime_user_02EPG6RGU79J67ZMkRM6Rik4FGECyEy5nG6": {
+      "unique_name": "definition_runtime_user_02EPG6RGU79J67ZMkRM6Rik4FGECyEy5nG6",
+      "name": "Mongo Lab User",
+      "title": "Mongo Lab User",
+      "type": "runtime_user.web-service_basic_credentials",
+      "base_type": "runtime_user",
+      "object_type": "definition_runtime_user",
+      "properties": {
+        "auth_option": "Basic",
+        "basic_password": "*****",
+        "basic_username": "admin",
+        "display_name": "Mongo Lab User"
+      }
+    },
+    "definition_runtime_user_02EQ0W8F3FVEG0DfnogxuuBxHvcsCEIfWfa": {
+      "unique_name": "definition_runtime_user_02EQ0W8F3FVEG0DfnogxuuBxHvcsCEIfWfa",
+      "name": "Pod-cdbf05-HTTP Account",
+      "title": "Pod-cdbf05-HTTP Account",
+      "type": "runtime_user.web-service_basic_credentials",
+      "base_type": "runtime_user",
+      "object_type": "definition_runtime_user",
+      "properties": {
+        "auth_option": "Basic",
+        "basic_password": "*****",
+        "basic_username": "test",
+        "display_name": "Pod-cdbf05-HTTP Account"
+      }
+    },
+    "definition_runtime_user_02EQ0YTAYG55X3WLmL1aDpztPmyShznH6f0": {
+      "unique_name": "definition_runtime_user_02EQ0YTAYG55X3WLmL1aDpztPmyShznH6f0",
+      "name": "Pod-cdbf05-SMTP Account",
+      "title": "Pod-cdbf05-SMTP Account",
+      "type": "runtime_user.email_credentials",
+      "base_type": "runtime_user",
+      "object_type": "definition_runtime_user",
+      "properties": {
+        "display_name": "Pod-cdbf05-SMTP Account",
+        "password": "*****",
+        "sender": "xdrciscolive2024@gmail.com"
+      }
+    }
+  },
+  "atomic_workflows": [
+    "definition_workflow_02EQ14DKSI1WT0eHsxwxJo8av5gmfgzEquL",
+    "definition_workflow_01P0GR3W6BLFK0lH4HekJSKaPcftY2an66W",
+    "definition_workflow_01P0K38QGGYDQ29vzDMyXrkbrrwsSBBCAsL"
+  ],
+  "remotemetas": {
+    "remote_meta_02EPAQZQPYHHU3JkyoBIIJOjp1gQUfjvu2M": {
+      "base_type": "remote_meta",
+      "type": "generic.remote_meta",
+      "name": "Cisco Live 2024 Remote",
+      "title": "Cisco Live 2024 Remote",
+      "version": "1.0.0",
+      "properties": {
+        "advanced": {
+          "require_advanced": false
+        },
+        "cloud_type": "vmware",
+        "display_name": "Cisco Live 2024 Remote",
+        "network": {
+          "dns_servers": "172.18.108.43,172.18.108.34",
+          "gateway": "10.122.138.193",
+          "ip_endpoint": "10.122.138.212/26",
+          "is_static_ip": true
+        },
+        "proxy": {
+          "require_proxy": false
+        }
+      },
+      "unique_name": "remote_meta_02EPAQZQPYHHU3JkyoBIIJOjp1gQUfjvu2M",
+      "object_type": "remote_meta"
+    }
+  },
+  "dependent_workflows": [
+    "definition_workflow_02EQ14DKSI1WT0eHsxwxJo8av5gmfgzEquL",
+    "definition_workflow_01P0GR3W6BLFK0lH4HekJSKaPcftY2an66W",
+    "definition_workflow_01P0K38QGGYDQ29vzDMyXrkbrrwsSBBCAsL"
+  ]
+}
